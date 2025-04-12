@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 class Post(models.Model):
@@ -22,6 +23,7 @@ class Comments(models.Model):
     email = models.EmailField()
     name = models.CharField('Имя', max_length=50)
     text_comments = models.TextField('Текст комментария', max_length=2000)
+    date = models.DateTimeField('Дата комментария', default=timezone.now, null=True, blank=True)
     post = models.ForeignKey(Post, verbose_name='Публикация', on_delete=models.CASCADE)
 
     def __str__(self):
