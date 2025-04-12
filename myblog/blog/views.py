@@ -17,7 +17,8 @@ class PostDetail(View):
     ''' Отдельная страница записи '''
     def get(self, request, pk):
         post = Post.objects.get(id=pk)
-        return render(request, 'blog/blog_detail.html', {'post': post})
+        form = CommentsForm()
+        return render(request, 'blog/blog_detail.html', {'post': post, 'form': form})
 
 
 class AddComments(View):
@@ -25,9 +26,9 @@ class AddComments(View):
     def post(self, request, pk):
         form = CommentsForm(request.POST)
         if form.is_valid():
-            form = form.save(commit=False)
-            form.post_id = pk
-            form.save()
+            comment = form.save(commit=False)
+            comment.post_id = pk
+            comment.save()
         return redirect(f'/{pk}')
 
 
